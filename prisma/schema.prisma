@@ -17,4 +17,13 @@ model user {
   idUser   Int    @id
   mail     String
   password String
+  name     String
+}
+
+model product {
+  idProduct Int    @id
+  name      String
+  minPrice  Float
+  maxPrice  Float
+  imagePath String
 }

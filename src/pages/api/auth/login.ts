@@ -2,6 +2,7 @@ import { PrismaClient } from "@prisma/client"
 import { NextApiRequest, NextApiResponse } from "next"
 
 const prisma: PrismaClient = new PrismaClient();
+const bcrypt = require("bcrypt");
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "POST") {
@@ -15,14 +16,10 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
             });
 
             if (existedAccount) {
-                const passwordVerif = await prisma.user.findFirst({
-                    where: {
-                        mail: mailV,
-                        password: passwordV
-                    }
-                });
 
-                if (passwordVerif) {
+                const passwordVerify = await bcrypt.compare(passwordV, existedAccount.password);
+
+                if (passwordVerify) {
                     res.status(201).json({ message: "Connection succes !" });
                 }
                 else {

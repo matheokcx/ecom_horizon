@@ -20,11 +20,14 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
                     data: {
                         idUser: 2,
                         mail: mailN,
-                        password: bcrypt.hash(passwordN, 10)
+                        password: await bcrypt.hash(passwordN, 10)
                     }
                 });
 
-                res.status(202).json({ message: "Account" })
+                res.status(202).json({ message: "Account" });
+            }
+            else {
+                res.status(400).json({ message: "You already have an account, connect you !" });
             }
         }
         catch (e: any) {
