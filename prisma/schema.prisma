@@ -14,16 +14,31 @@ datasource db {
 }
 
 model user {
-  idUser   Int    @id
+  idUser   Int     @id
   mail     String
   password String
-  name     String
+  name     String?
 }
 
 model product {
-  idProduct Int    @id
-  name      String
-  minPrice  Float
-  maxPrice  Float
-  imagePath String
+  idProduct          Int        @id
+  name               String
+  minPrice           Float
+  maxPrice           Float
+  imagePath          String
+  favorite           favorite[]
+  supplier           supplier?  @relation(fields: [supplierIdSupplier], references: [idSupplier])
+  supplierIdSupplier Int?
+}
+
+model favorite {
+  idFavorite Int     @id
+  product    product @relation(fields: [idProduct], references: [idProduct])
+  idProduct  Int
+}
+
+model supplier {
+  idSupplier Int       @id
+  name       String
+  products   product[]
 }

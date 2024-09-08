@@ -6,7 +6,7 @@ const bcrypt = require("bcrypt");
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "POST") {
-        const { mailN, passwordN } = req.body;
+        const { mailN, passwordN, nameN } = req.body;
 
         try {
             const accoundAlreadyExist: any = await prisma.user.findFirst({
@@ -16,11 +16,22 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
             });
 
             if (!accoundAlreadyExist) {
+
+                const usersId = await prisma.user.findMany({
+                    select: {
+                        idUser: true
+                    },
+                    orderBy: {
+                        idUser: "desc"
+                    }
+                })
+
                 await prisma.user.create({
                     data: {
-                        idUser: 2,
+                        idUser: usersId[0].idUser + 1,
                         mail: mailN,
-                        password: await bcrypt.hash(passwordN, 10)
+                        password: await bcrypt.hash(passwordN, 10),
+                        name: nameN
                     }
                 });
 
