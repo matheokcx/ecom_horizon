@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 export default function dashboard() {
 
     const router: NextRouter = useRouter();
-    const { mail, token }: any = router.query;
+    const { userMail, token }: any = router.query;
     const [informations, setInformations] = useState<any>({});
 
     const getInformations = async () => {
@@ -15,7 +15,7 @@ export default function dashboard() {
                 'Content-Type': "application/json",
             },
             body: JSON.stringify({
-                userMail: mail
+                userMail: userMail
             })
         });
 
@@ -29,15 +29,15 @@ export default function dashboard() {
     }
 
     useEffect(() => {
-        if (mail) {
+        if (userMail) {
             getInformations();
         }
-    }, [mail]);
+    }, [userMail]);
 
     return (
         <>
             <div className="w-screen h-screen flex flex-row bg-white">
-                <SideBar userMail={mail} />
+                <SideBar userMail={userMail} />
                 <div className="w-4/5 h-full flex flex-col items-center justify-center">
                     <p className="text-2xl text-black">Welcome <strong>{informations.name}</strong> !</p>
                 </div>

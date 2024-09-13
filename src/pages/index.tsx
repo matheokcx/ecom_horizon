@@ -27,7 +27,7 @@ export default function Home() {
 
     if (requete.ok) {
       const theToken = await requete.json().then((data: any) => data.token)
-      router.push(`/dashboard?mail=${mailValue}&token=${theToken}`);
+      router.push(`/dashboard?userMail=${mailValue}&token=${theToken}`);
     }
     else {
       const callBack: any = await requete.json();
