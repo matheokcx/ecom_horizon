@@ -36,9 +36,9 @@ export default function dashboard() {
 
     return (
         <>
-            <div className="w-screen h-screen flex flex-row bg-white">
+            <div className="w-screen h-screen flex flex-col-reverse lg:flex-row bg-white">
                 <SideBar userMail={userMail} />
-                <div className="w-4/5 h-full flex flex-col items-center justify-center">
+                <div className="w-full lg:w-4/5 h-3/4 lg:h-full flex flex-col items-center justify-center">
                     <p className="text-2xl text-black">Welcome <strong>{informations.name}</strong> !</p>
                 </div>
             </div>

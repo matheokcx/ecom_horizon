@@ -11,7 +11,7 @@ export default function SideBar({ userMail }: props) {
 
     return (
         <>
-            <div className="w-1/5 h-full bg-gray-800 rounded-lg flex flex-col pl-8 gap-10 pt-10 text-white font-bold">
+            <div className="w-full lg:w-1/5 h-1/4 lg:h-full overflow-x-auto bg-gray-800 rounded-lg flex flex-row items-center lg:items-normal lg:flex-col pl-8 gap-10 pt-10 text-white font-bold">
                 <button onClick={() => router.push(`/dashboard?userMail=${userMail}`)}>Products</button>
                 <button onClick={() => router.push(`/`)}>Suppliers</button>
                 <button onClick={() => router.push(`/`)}>Analytics</button>

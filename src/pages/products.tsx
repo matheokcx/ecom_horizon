@@ -11,11 +11,19 @@ export default function products() {
 
     const [products, setProducts] = useState<Array<any>>([]);
 
+    const loadProducts = async () => {
+        const request = await fetch("");
+    }
+
+    useEffect(() => {
+        loadProducts();
+    }, [])
+
     return (
         <>
             <SideBar userMail={userMail} />
             <div className="w-4/5 h-full overflow-y-auto flex flex-col items-center">
-                {products.map((e: any, index: any) => <Product key={index} />)}
+                {products.map((e: any, index: any) => <Product name={e.name} minPrice={e.minPrice} maxPrice={e.maxPrice} key={index} />)}
             </div>
         </>
     )

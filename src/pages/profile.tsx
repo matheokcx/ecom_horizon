@@ -30,6 +30,7 @@ export default function profile() {
         const retour: any = await request.json()
         if (request.ok) {
             alert(retour.message);
+            router.push('/');
         }
         else {
             setErrorMessage(retour.message);
@@ -38,9 +39,9 @@ export default function profile() {
 
     return (
         <>
-            <div className="w-screen h-screen bg-white text-black font-sans flex flex-row">
+            <div className="w-screen h-screen bg-white text-black font-sans flex flex-col-reverse lg:flex-row">
                 <SideBar userMail={userMail as any} />
-                <div className="w-4/5 h-full flex flex-col items-center justify-center gap-14">
+                <div className="w-full lg:w-4/5 h-full flex flex-col items-center justify-center gap-14">
                     <h2 className="text-2xl font-bold">Modify your informations</h2>
                     <input type="text" value={newMail} onChange={(e: any) => setNewMail(e.target.value)} placeholder="Your new mail" className="w-2/3 h-8 rounded-lg border-2 border-gray-400 p-1 text-black" />
                     <span className="w-2/3 flex flex-row justify-center items-center gap-4">
