@@ -1,14 +1,13 @@
 import { PrismaClient } from "@prisma/client"
 import { NextApiRequest, NextApiResponse } from "next"
+import { getJson } from "serpapi"
 
 const prisma: PrismaClient = new PrismaClient();
-const { getJson } = require("serpapi");
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === "GET") {
 
         try {
-            const request = await fetch("https://serpapi.com/search.json?engine=google_trends&q=coffee,milk,bread,pasta,steak&data_type=TIMESERIES");
             const { search } = req.query;
 
             getJson({
@@ -17,7 +16,21 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
                 data_type: "TIMESERIES",
                 api_key: "ef61b8d9cc1672dc3ce73972cde50f2b5ddb77bdb04545c5690c7627e4c0c5a7"
             }, (data: any) => {
-                res.status(200).json({ data });
+                const dates_informations: Array<any> = data.interest_over_time.timeline_data;
+                let dates: Array<string> = [];
+                let values: Array<number> = [];
+                for (let i = 0; i < dates_informations.length; i++) {
+                    dates[i] = dates_informations[i].date.substring(4, 11);
+                    values[i] = dates_informations[i].values[0].extracted_value;
+                }
+                res.status(200).json({
+                    labels: dates, datasets: [{
+                        label: 'Sales',
+                        data: values,
+                        borderColor: 'rgba(75,192,192,1)',
+                        backgroundColor: 'rgba(75,192,192,0.2)',
+                    },]
+                });
             });
 
         }

@@ -2,6 +2,9 @@ import SideBar from "../components/SideBar"
 import Product from "../components/Product"
 import { useRouter, NextRouter } from "next/router"
 import { useState, useEffect } from "react"
+import Chart from 'chart.js/auto';
+import { Line } from "react-chartjs-2";
+import LineChart from "@/components/LineChart";
 
 
 export default function products() {
@@ -10,21 +13,30 @@ export default function products() {
     const { userMail }: any = router.query;
 
     const [search, setSearch] = useState<string>("");
+    const [result, setResult] = useState<any | null>({});
     const [texte, setTexte] = useState<string>("");
+
+    const [isClient, setIsClient] = useState(false);
+
 
     const makeSearch = async () => {
         const request = await fetch(`api/product/infos?search=${search}`);
 
         if (request.ok) {
-            const retour = await request.json();
-            console.log(JSON.stringify(retour))
-            setTexte(JSON.stringify(retour));
+            const retour = await request.json().then((data: any) => {
+                setResult(null);
+                setTexte(JSON.stringify(data));
+            });
         }
         else {
             const retour = await request.json();
             alert(retour.message);
         }
     }
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
 
     return (
         <>
@@ -36,9 +48,9 @@ export default function products() {
                         <button className="w-1/6 h-8 rounded-xl bg-white border-2 border-gray-400 transition-all hover:bg-gray-700 hover:text-white hover:border-0 hover:-translate-y-2" onClick={() => makeSearch()}>o-</button>
                     </span>
                     <p className="w-3/4 text-black overflow-x-auto">{texte}</p>
+                    {result == null ? <p>Loading...</p> : <LineChart data={result} />}
                 </div>
             </div>
-
         </>
     )
 }
