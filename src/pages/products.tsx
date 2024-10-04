@@ -1,9 +1,6 @@
 import SideBar from "../components/SideBar"
-import Product from "../components/Product"
 import { useRouter, NextRouter } from "next/router"
-import { useState, useEffect } from "react"
-import Chart from 'chart.js/auto';
-import { Line } from "react-chartjs-2";
+import { useState } from "react"
 import LineChart from "@/components/LineChart";
 
 
@@ -15,26 +12,17 @@ export default function products() {
     const [search, setSearch] = useState<string>("");
     const [result, setResult] = useState<any | null>(null);
 
-    const [isClient, setIsClient] = useState(false);
-
-
     const makeSearch = async () => {
         const request = await fetch(`api/product/infos?search=${search}`);
 
         if (request.ok) {
-            const retour = await request.json().then((data: any) => {
-                setResult(data);
-            });
+            const retour = await request.json().then((data: any) => setResult(data));
         }
         else {
             const retour = await request.json();
             alert(retour.message);
         }
     }
-
-    useEffect(() => {
-        setIsClient(true);
-    }, []);
 
     return (
         <>
