@@ -13,8 +13,7 @@ export default function products() {
     const { userMail }: any = router.query;
 
     const [search, setSearch] = useState<string>("");
-    const [result, setResult] = useState<any | null>({});
-    const [texte, setTexte] = useState<string>("");
+    const [result, setResult] = useState<any | null>(null);
 
     const [isClient, setIsClient] = useState(false);
 
@@ -24,8 +23,7 @@ export default function products() {
 
         if (request.ok) {
             const retour = await request.json().then((data: any) => {
-                setResult(null);
-                setTexte(JSON.stringify(data));
+                setResult(data);
             });
         }
         else {
@@ -47,8 +45,7 @@ export default function products() {
                         <input type="text" value={search} onChange={(e: any) => setSearch(e.target.value)} placeholder="Search a trending product" className="w-5/6 h-8 border-2 border-gray-400 p-1 text-black rounded-xl mt-4" />
                         <button className="w-1/6 h-8 rounded-xl bg-white border-2 border-gray-400 transition-all hover:bg-gray-700 hover:text-white hover:border-0 hover:-translate-y-2" onClick={() => makeSearch()}>o-</button>
                     </span>
-                    <p className="w-3/4 text-black overflow-x-auto">{texte}</p>
-                    {result == null ? <p>Loading...</p> : <LineChart data={result} />}
+                    {result == null ? null : <LineChart donnees={result} />}
                 </div>
             </div>
         </>

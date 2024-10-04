@@ -17,19 +17,26 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
                 api_key: "ef61b8d9cc1672dc3ce73972cde50f2b5ddb77bdb04545c5690c7627e4c0c5a7"
             }, (data: any) => {
                 const dates_informations: Array<any> = data.interest_over_time.timeline_data;
-                let dates: Array<string> = [];
                 let values: Array<number> = [];
+                let dates: Array<string> = [];
                 for (let i = 0; i < dates_informations.length; i++) {
                     dates[i] = dates_informations[i].date.substring(4, 11);
                     values[i] = dates_informations[i].values[0].extracted_value;
                 }
+                for (let i = 0; i < values.length; i++) {
+                    dates[i] = i.toString()
+                }
+
                 res.status(200).json({
-                    labels: dates, datasets: [{
-                        label: 'Sales',
-                        data: values,
-                        borderColor: 'rgba(75,192,192,1)',
-                        backgroundColor: 'rgba(75,192,192,0.2)',
-                    },]
+                    labels: dates,
+                    datasets: [
+                        {
+                            label: 'Sales',
+                            data: values,
+                            borderColor: 'rgb(205, 90, 255)',
+                            tension: 0.4,
+                        },
+                    ],
                 });
             });
 
